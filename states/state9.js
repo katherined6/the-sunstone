@@ -1,3 +1,4 @@
+var level_9_flag = 8, cleared9 = false, key9, dropR9, dropR9S;
 sun_stone.state9 = function(){};
 sun_stone.state9.prototype = {
     preload: function(){
@@ -40,11 +41,11 @@ sun_stone.state9.prototype = {
         hunterS.animations.add('move_r', [22,23,24,25,26,27], 10, false);
         hunterS.animations.add('idle', [0,1,2,3], 10, true);
         // create animations for attacks
-        hunterS.animations.add('att_r', [40,41,42,43,44], 10, false);
-        hunterS.animations.add('att_l', [45,46,47,48,49], 10, false);
-        hunterS.animations.add('att_u', [55,56,57,58,59], 10, false);
-        hunterS.animations.add('att_d', [50,51,52,53,54], 10, false);
-        hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 10, false);
+        hunterS.animations.add('att_r', [40,41,42,43,44], 15, false);
+        hunterS.animations.add('att_l', [45,46,47,48,49], 15, false);
+        hunterS.animations.add('att_u', [55,56,57,58,59], 15, false);
+        hunterS.animations.add('att_d', [50,51,52,53,54], 15, false);
+        hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 7, false);
         
         
         
@@ -71,11 +72,16 @@ sun_stone.state9.prototype = {
         mage8.animations.add('walk', [0,1,2,3,4,5,6,7,8,9,10,11], 12, true);
         mage8.animations.play('walk');
         
-        mage9 = enemy.create(1000,350,'enemywizard');
+        
+        //enemy1
+        enemy1 = game.add.group();
+        enemy1.enableBody = true;
+        enemy1.forEach(function(mage1){mage1.body.bounce.x=1});
+        mage9 = enemy1.create(1000,350,'enemywizard');
         mage9.scale.setTo(1.3,1.3);
-        create_enemy(mage9,0,0,1,1,100);
         mage9.animations.add('walk', [0,1,2,3,4,5,6,7,8,9,10,11], 12, true);
         mage9.animations.play('walk');
+        mage9.health = 150;
         
         mage10 = enemy.create(590,275,'zombiewizard');
         mage10.scale.setTo(1.3,1.3);
@@ -89,12 +95,6 @@ sun_stone.state9.prototype = {
         mage11.animations.add('walk', [0,1,2,3,4,5,6,7,8,9,10,11], 12, true);
         mage11.animations.play('walk');
         
-        
-        mage12 = enemy.create(590,275,'zombiewizard');
-        mage12.scale.setTo(1.3,1.3);
-        create_enemy(mage12,0,0,1,1,50);
-        mage12.animations.add('walk', [0,1,2,3,4,5,6,7,8,9,10,11], 12, true);
-        mage12.animations.play('walk');
         
         mage13 = enemy.create(590,350,'zombiewizard');
         mage13.scale.setTo(1.3,1.3);
@@ -141,17 +141,16 @@ sun_stone.state9.prototype = {
         attKey.onDown.add(melee_attack, this);
         
         // show health of player
-        health_stat = game.add.text(16, 16, 'Health: ' + hunter.health, { fontSize: '32px', fill: '#fff' });
-        // show mana of player
-        mana_stat = game.add.text(16, 45, 'Mana: ' + hunter.mana, { fontSize: '32px', fill: '#fff' });
+        health_stat = game.add.text(45, 8, 'Health: ' + hunter.health, { font: "32px VT323", fill: '#fff' });
         
+        mana_stat = game.add.text(300, 8, 'Mana: ' + hunter.mana, { font: "32px VT323", fill: '#fff' });
         
         
         //menu
         pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
         pauseKey.onDown.add(startPause, this);
         
-        // door from room 4
+        // door from room 6
         room9Door1 = game.add.sprite(1233, 380, 'door');
         game.physics.arcade.enable(room9Door1);
         room9Door1.rotation = -1.57;
@@ -159,11 +158,11 @@ sun_stone.state9.prototype = {
         room9Door1.body.setSize(50,50,-25,-40);
         
         
-        // door to room 6
+        // door to room 10
         room9Door2 = game.add.sprite(32, 380, 'door');
         game.physics.arcade.enable(room9Door2);
         room9Door2.rotation = -1.57;
-        room9Door2.frame = 1;
+        room9Door2.frame = 0;
         room9Door2.body.setSize(50,50,0,-40);
         
         
@@ -292,7 +291,7 @@ sun_stone.state9.prototype = {
         
         game.physics.arcade.collide(walls, spells_lr, spellCollide, null, this);
         
-        game.physics.arcade.overlap(enemy, spells_lr, damage1, null,this);
+        game.physics.arcade.overlap(enemy, spells_lr, damage11, null,this);
         
         //game.physics.arcade.collide(mage1, spells_lr, damage3, null,this);
         
@@ -300,14 +299,14 @@ sun_stone.state9.prototype = {
         
         game.physics.arcade.collide(walls, spells_ud, spellCollide, null, this);
         
-        game.physics.arcade.overlap(enemy, spells_ud, damage1, null,this);
+        game.physics.arcade.overlap(enemy, spells_ud, damage11, null,this);
         
         //game.physics.arcade.collide(mage1, spells_ud, damage3, null,this);
         game.physics.arcade.overlap(mage8, spells_ud, damage3, null,this);
-        game.physics.arcade.overlap(mage9, spells_ud, damage3, null,this);
+        game.physics.arcade.overlap(mage9, spells_ud, damage12, null,this);
+        game.physics.arcade.overlap(mage9, spells_lr, damage12, null,this);
         game.physics.arcade.overlap(mage10, spells_ud, damage3, null,this);
         game.physics.arcade.overlap(mage11, spells_ud, damage3, null,this);
-        game.physics.arcade.overlap(mage12, spells_ud, damage3, null,this);
         game.physics.arcade.overlap(mage13, spells_ud, damage3, null,this);
         game.physics.arcade.overlap(mage14, spells_ud, damage3, null,this);
         game.physics.arcade.overlap(mage16, spells_ud, damage3, null,this);
@@ -318,14 +317,13 @@ sun_stone.state9.prototype = {
         
         
         // colide melee hitbox with enemies
-        game.physics.arcade.overlap(enemy, hitboxes, damage1, null, this);
+        game.physics.arcade.overlap(enemy, hitboxes, damage11, null, this);
         game.physics.arcade.overlap(rats, hitboxes, damage1, null, this);
         //game.physics.arcade.collide(mage1, hitboxes, damage4, null, this);
         game.physics.arcade.overlap(mage8, hitboxes, damage4, null, this);
-        game.physics.arcade.overlap(mage9, hitboxes, damage4, null, this);
+        game.physics.arcade.overlap(mage9, hitboxes, damage13, null, this);
         game.physics.arcade.overlap(mage10, hitboxes, damage4, null, this);
         game.physics.arcade.overlap(mage11, hitboxes, damage4, null, this);
-        game.physics.arcade.overlap(mage12, hitboxes, damage4, null, this);
         game.physics.arcade.overlap(mage13, hitboxes, damage4, null, this);
         game.physics.arcade.overlap(mage14, hitboxes, damage4, null, this);
         game.physics.arcade.overlap(mage16, hitboxes, damage4, null, this);
@@ -345,7 +343,6 @@ sun_stone.state9.prototype = {
         game.physics.arcade.overlap(hunterS, mage9, damage2, null, this);
         game.physics.arcade.overlap(hunterS, mage10, damage2, null, this);
         game.physics.arcade.overlap(hunterS, mage11, damage2, null, this);
-        game.physics.arcade.overlap(hunterS, mage12, damage2, null, this);
         game.physics.arcade.overlap(hunterS, mage13, damage2, null, this);
         game.physics.arcade.overlap(hunterS, mage14, damage2, null, this);
         game.physics.arcade.overlap(hunterS, mage16, damage2, null, this);
@@ -353,7 +350,8 @@ sun_stone.state9.prototype = {
 
         
 
-        game.physics.arcade.moveToObject(mage10, hunterS, 40);       game.physics.arcade.moveToObject(mage11, hunterS, 40);       game.physics.arcade.moveToObject(mage12, hunterS, 40);
+        game.physics.arcade.moveToObject(mage10, hunterS, 40);       
+        game.physics.arcade.moveToObject(mage11, hunterS, 40);       
         game.physics.arcade.moveToObject(mage13, hunterS, 40);
         game.physics.arcade.moveToObject(mage16, hunterS, 40);
         game.physics.arcade.moveToObject(mage9, hunterS, 80);
@@ -364,10 +362,10 @@ sun_stone.state9.prototype = {
         
         
         // collide player with key to put into inventory
-        game.physics.arcade.overlap(hunterS, key1, pickupK1, null, this);
+        game.physics.arcade.overlap(hunterS, key9, pickupK9, null, this);
         
         // collide player with drop item and equip it
-        game.physics.arcade.overlap(hunterS, dropR1S, function(hunterS, dropR1S){pick_up(hunterS, dropR1S, dropR1 );}, null, this);
+        game.physics.arcade.overlap(hunterS, dropR9S, function(hunterS, dropR9S){pick_up(hunterS, dropR9S, dropR9 );}, null, this);
         
         // kill player if health below zero
         if(hunter.health <= 0){
@@ -375,7 +373,7 @@ sun_stone.state9.prototype = {
             hunter.health = 0;
             attacking = true;
             // death text
-            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px Arial", fill: "#ff0044", align: "center" });
+            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px VT323", fill: "#ff0044", align: "center" });
             d_text.anchor.setTo(0.5,0.5);
             //hunterS.animations.play('death'); 
             if(hunter.death == false){
@@ -390,8 +388,74 @@ sun_stone.state9.prototype = {
         
         
         
+        if (level_9_flag <= 0){
+            
+            if(!cleared9){
+                // spawn key
+                key9 = game.add.sprite(600, 300, 'key');
+                key9.scale.setTo(0.5,0.5);
+                // set physics
+                game.physics.arcade.enable(key9);
+                
+                
+                // get random item
+                drop_idx = rand_d();
+                dropR9 = drop_items[drop_idx];
+                console.log(drop_idx);
+                console.log(dropR9);
+            
+                // random drop for room 8
+                dropR9S = game.add.sprite(500, 300, 'chest');
+                dropR9S.scale.setTo(0.5,0.5);
+                // enable physics
+                game.physics.arcade.enable(dropR9S);
+            }
+            
+            // reset flag
+            level_9_flag = 8;
+        }
+        
+        
+        
+        // open door to room 10 when key is picked up
+        if(inventory.keyR9){
+            room9Door2.frame = 1;
+        }
+        
+        
+        
+        
+        
     }
     
     
 };
+
+
+
+
+
+
+
+
+
+
+
+
+// put key 9 into inventory, set flags
+function pickupK9(hunterS, key9){
+    // kill sprite
+    key9.kill();
+    
+    key_sound.play();
+    // change boolean in inventory
+    inventory.keyR9 = true;
+    
+    
+    
+    // change cleared flag
+    cleared9 = true;
+    
+    console.log(inventory.keyR9);
+}
 

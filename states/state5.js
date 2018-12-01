@@ -45,11 +45,11 @@ sun_stone.state5.prototype = {
         hunterS.animations.add('move_r', [22,23,24,25,26,27], 10, false);
         hunterS.animations.add('idle', [0,1,2,3], 10, true);
         // create animations for attacks
-        hunterS.animations.add('att_r', [40,41,42,43,44], 10, false);
-        hunterS.animations.add('att_l', [45,46,47,48,49], 10, false);
-        hunterS.animations.add('att_u', [55,56,57,58,59], 10, false);
-        hunterS.animations.add('att_d', [50,51,52,53,54], 10, false);
-        hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 10, false);
+        hunterS.animations.add('att_r', [40,41,42,43,44], 15, false);
+        hunterS.animations.add('att_l', [45,46,47,48,49], 15, false);
+        hunterS.animations.add('att_u', [55,56,57,58,59], 15, false);
+        hunterS.animations.add('att_d', [50,51,52,53,54], 15, false);
+        hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 7, false);
         
         
         
@@ -188,10 +188,9 @@ sun_stone.state5.prototype = {
         attKey.onDown.add(melee_attack, this);
         
         // show health of player
-        health_stat = game.add.text(16, 16, 'Health: ' + hunter.health, { fontSize: '32px', fill: '#fff' });
-        // show mana of player
-        mana_stat = game.add.text(16, 45, 'Mana: ' + hunter.mana, { fontSize: '32px', fill: '#fff' });
+        health_stat = game.add.text(45, 8, 'Health: ' + hunter.health, { font: "32px VT323", fill: '#fff' });
         
+        mana_stat = game.add.text(300, 8, 'Mana: ' + hunter.mana, { font: "32px VT323", fill: '#fff' });
         
         
         //menu
@@ -213,13 +212,13 @@ sun_stone.state5.prototype = {
         // door to room 8
         room5Door4 = game.add.sprite(630, 685, 'door');
         game.physics.arcade.enable(room5Door4);
-        room5Door4.frame = 1;
+        room5Door4.frame = 0;
         
         // door to room 6
         room5Door3 = game.add.sprite(32, 380, 'door');
         game.physics.arcade.enable(room5Door3);
         room5Door3.rotation = -1.57;
-        room5Door3.frame = 1;
+        room5Door3.frame = 0;
         room5Door3.body.setSize(50,50,0,-40);
         
         
@@ -268,6 +267,24 @@ sun_stone.state5.prototype = {
         if(room5Door4.frame == 1){
             game.physics.arcade.overlap(hunterS, room5Door4, room8Enter, null, this);
         }
+        
+        // open door to room 8 when key is picked up
+        if(inventory.keyR7){
+            room5Door4.frame = 1;
+        }
+        
+        // open door to room 6 when key is picked up
+        if(inventory.keyR8){
+            room5Door3.frame = 1;
+        }
+        
+        
+        
+        
+        
+        
+        
+        
         
         //update stats
         health_stat.setText("Health: "+ hunter.health +"/"+ hunter.health_max)
@@ -480,7 +497,7 @@ sun_stone.state5.prototype = {
             hunter.health = 0;
             attacking = true;
             // death text
-            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px Arial", fill: "#ff0044", align: "center" });
+            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px VT323", fill: "#ff0044", align: "center" });
             d_text.anchor.setTo(0.5,0.5);
             //hunterS.animations.play('death'); 
             if(hunter.death == false){

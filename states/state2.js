@@ -37,11 +37,11 @@ sun_stone.state2.prototype = {
         hunterS.animations.add('move_r', [22,23,24,25,26,27], 10, false);
         hunterS.animations.add('idle', [0,1,2,3], 10, true);
         // create animations for attacks
-        hunterS.animations.add('att_r', [40,41,42,43,44], 10, false);
-        hunterS.animations.add('att_l', [45,46,47,48,49], 10, false);
-        hunterS.animations.add('att_u', [55,56,57,58,59], 10, false);
-        hunterS.animations.add('att_d', [50,51,52,53,54], 10, false);
-        hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 10, false);
+        hunterS.animations.add('att_r', [40,41,42,43,44], 15, false);
+        hunterS.animations.add('att_l', [45,46,47,48,49], 15, false);
+        hunterS.animations.add('att_u', [55,56,57,58,59], 15, false);
+        hunterS.animations.add('att_d', [50,51,52,53,54], 15, false);
+        hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 7, false);
         
         
         
@@ -73,7 +73,7 @@ sun_stone.state2.prototype = {
              
              
             rat = rats.create(1190, i *150, 'rat');
-            rat.scale.setTo(0.5,0.5)
+            rat.scale.setTo(1,1)
             rat.health = 18;
         
             // enable physics on rat
@@ -81,13 +81,15 @@ sun_stone.state2.prototype = {
             //bind rat to creen
             rat.body.collideWorldBounds = true;
             
-            rat.body.velocity.x = 0;
+            rat.body.velocity.x = 30;
             rat.body.bounce.x = 1;
+            rat.animations.add('move', [4,5,6,7], 5, true);
+            rat.animations.play('move');
             
              }
         for (var i = 1; i < 3; i++){
-            rat = rats.create(100, i*300, 'rat' );
-            rat.scale.setTo(-0.5,0.5);
+            rat = rats.create(90, i*300, 'rat' );
+            rat.scale.setTo(-1,1);
             rat.health = 18;
             
             
@@ -96,34 +98,40 @@ sun_stone.state2.prototype = {
             
             rat.body.velocity.x = 50;
             rat.body.bounce.x = 1;
+            rat.animations.add('move', [4,5,6,7], 5, true);
+            rat.animations.play('move');
             
         }
     
-        for (var i = 1; i < 3; i++){
-            rat = rats.create(590, i*90, 'rat' );
-            rat.scale.setTo(-0.5,0.5);
+        for (var i = 0; i < 2; i++){
+            rat = rats.create(590, (i*105)+75, 'rat' );
+            rat.scale.setTo(-1,1);
             rat.health = 18;
             
             
             game.physics.arcade.enable(rat);
             rat.body.collideWorldBounds = true;
             
-            rat.body.velocity.x = 250;
+            rat.body.velocity.x = 100;
             rat.body.bounce.x = 1;
+            rat.animations.add('move', [4,5,6,7], 5, true);
+            rat.animations.play('move');
             
         }
         
         for (var i = 1; i < 3; i++){
-            rat = rats.create(600, (i*100)+300, 'rat' );
-            rat.scale.setTo(-0.5,0.5);
+            rat = rats.create(620, (i*100)+300, 'rat' );
+            rat.scale.setTo(-1,1);
             rat.health = 18;
             
             
             game.physics.arcade.enable(rat);
             rat.body.collideWorldBounds = true;
             
-            rat.body.velocity.x = 150;
+            rat.body.velocity.x = 100;
             rat.body.bounce.x = 1;
+            rat.animations.add('move', [4,5,6,7], 5, true);
+            rat.animations.play('move');
             
         }
         
@@ -159,9 +167,9 @@ sun_stone.state2.prototype = {
         attKey.onDown.add(melee_attack, this);
         
         // show health of player
-        health_stat = game.add.text(16, 16, 'Health: ' + hunter.health, { fontSize: '32px', fill: '#fff' });
-        // show mana of player
-        mana_stat = game.add.text(16, 45, 'Mana: ' + hunter.mana, { fontSize: '32px', fill: '#fff' });
+        health_stat = game.add.text(45, 8, 'Health: ' + hunter.health, { font: "32px VT323", fill: '#fff' });
+        
+        mana_stat = game.add.text(300, 8, 'Mana: ' + hunter.mana, { font: "32px VT323", fill: '#fff' });
         
         
         
@@ -332,7 +340,7 @@ sun_stone.state2.prototype = {
             hunter.health = 0;
             attacking = true;
             // death text
-            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px Arial", fill: "#ff0044", align: "center" });
+            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px VT323", fill: "#ff0044", align: "center" });
             d_text.anchor.setTo(0.5,0.5);
             //hunterS.animations.play('death'); 
             if(hunter.death == false){
@@ -379,7 +387,7 @@ sun_stone.state2.prototype = {
             cleared2 = false;
         }
         
-        game.debug.body(room2Door);
+        
         
         
     }
@@ -389,27 +397,9 @@ sun_stone.state2.prototype = {
 
 
 
-function damage3 (mage1, spell1){
-    spell1.kill();
-    mage1.health -= hunter.spell_attack;
-    ghost_damage_sound.play();
-    if(mage1.health<= 0){
-        mage1.kill();
-        level_2_flag = true;
-    }
-}
 
-function damage4 (mage1, spell1){
-    spell1.kill();
-    mage1.health -= hunter.melee_attack;
-    ghost_damage_sound.play();
-    if(mage1.health<= 0){
-        mage1.kill();
-        level_2_flag = true;
-    }
-}
 
-// put key 1 into inventory
+// put key 2 into inventory
 function pickupK2(hunterS, key2){
     // kill sprite
     key2.kill();

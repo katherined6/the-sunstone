@@ -1,3 +1,5 @@
+var level_3_flag = 2, cleared3 = false, key3;
+
 sun_stone.state3 = function(){};
 sun_stone.state3.prototype = {
     preload: function(){
@@ -39,11 +41,11 @@ sun_stone.state3.prototype = {
         hunterS.animations.add('move_r', [22,23,24,25,26,27], 10, false);
         hunterS.animations.add('idle', [0,1,2,3], 10, true);
         // create animations for attacks
-        hunterS.animations.add('att_r', [40,41,42,43,44], 10, false);
-        hunterS.animations.add('att_l', [45,46,47,48,49], 10, false);
-        hunterS.animations.add('att_u', [55,56,57,58,59], 10, false);
-        hunterS.animations.add('att_d', [50,51,52,53,54], 10, false);
-        hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 10, false);
+        hunterS.animations.add('att_r', [40,41,42,43,44], 15, false);
+        hunterS.animations.add('att_l', [45,46,47,48,49], 15, false);
+        hunterS.animations.add('att_u', [55,56,57,58,59], 15, false);
+        hunterS.animations.add('att_d', [50,51,52,53,54], 15, false);
+        hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 7, false);
         
         
         
@@ -59,9 +61,7 @@ sun_stone.state3.prototype = {
         
         
         
-        
-        
-       // function create_enemy(enemy, group, enemyspritename_str, x, y, x_velocity, y_velocity, x_bounce, y_bounce, health){  
+          
         
         //enemy mage
         enemy1 = game.add.group();
@@ -141,9 +141,9 @@ sun_stone.state3.prototype = {
         attKey.onDown.add(melee_attack, this);
         
         // show health of player
-        health_stat = game.add.text(16, 16, 'Health: ' + hunter.health, { fontSize: '32px', fill: '#fff' });
-        // show mana of player
-        mana_stat = game.add.text(16, 45, 'Mana: ' + hunter.mana, { fontSize: '32px', fill: '#fff' });
+        health_stat = game.add.text(45, 8, 'Health: ' + hunter.health, { font: "32px VT323", fill: '#fff' });
+        
+        mana_stat = game.add.text(300, 8, 'Mana: ' + hunter.mana, { font: "32px VT323", fill: '#fff' });
         
         
         
@@ -162,7 +162,7 @@ sun_stone.state3.prototype = {
         // door leading to room4
         room3Door2 = game.add.sprite(32, 350, 'door');
         game.physics.arcade.enable(room3Door2);
-        room3Door2.frame = 1;
+        room3Door2.frame = 0;
         room3Door2.rotation = -1.57;
         room3Door2.body.setSize(50,50,0,-40);
         
@@ -194,8 +194,7 @@ sun_stone.state3.prototype = {
         
        
         
-        // enter room4
-        game.physics.arcade.overlap(hunterS, room3Door2, room4Enter, null, this);
+        
         // enter room1
         game.physics.arcade.overlap(hunterS, room3Door1, room1Enter2, null, this);
         
@@ -290,9 +289,9 @@ sun_stone.state3.prototype = {
         
         game.physics.arcade.overlap(enemy, spells_lr, damage1, null,this);
         
-        game.physics.arcade.overlap(mage1, spells_lr, damage3, null,this);
+        game.physics.arcade.overlap(mage1, spells_lr, damage5, null,this);
         
-        game.physics.arcade.overlap(mage2, spells_lr, damage3, null,this);
+        game.physics.arcade.overlap(mage2, spells_lr, damage5, null,this);
         
         game.physics.arcade.overlap(mage, spells_lr, damage3, null,this);
 
@@ -309,9 +308,9 @@ sun_stone.state3.prototype = {
         
         game.physics.arcade.overlap(enemy, spells_ud, damage1, null,this);
         
-        game.physics.arcade.overlap(mage1, spells_ud, damage3, null,this);
+        game.physics.arcade.overlap(mage1, spells_ud, damage5, null,this);
         
-        game.physics.arcade.overlap(mage2, spells_ud, damage3, null,this);
+        game.physics.arcade.overlap(mage2, spells_ud, damage5, null,this);
 
         game.physics.arcade.overlap(mage, spells_ud, damage3, null,this);
 
@@ -325,8 +324,8 @@ sun_stone.state3.prototype = {
         // colide melee hitbox with enemies
         game.physics.arcade.overlap(enemy, hitboxes, damage1, null, this);
         game.physics.arcade.overlap(rats, hitboxes, damage1, null, this);
-        game.physics.arcade.overlap(mage1, hitboxes, damage4, null, this);
-        game.physics.arcade.overlap(mage2, hitboxes, damage4, null, this);
+        game.physics.arcade.overlap(mage1, hitboxes, damage6, null, this);
+        game.physics.arcade.overlap(mage2, hitboxes, damage6, null, this);
         game.physics.arcade.overlap(mage, hitboxes, damage4, null, this);
         game.physics.arcade.overlap(mage4, hitboxes, damage4, null, this);
         game.physics.arcade.overlap(mage5, hitboxes, damage4, null, this);
@@ -356,11 +355,7 @@ sun_stone.state3.prototype = {
 
         
         
-        // collide player with key to put into inventory
-        game.physics.arcade.overlap(hunterS, key1, pickupK1, null, this);
         
-        // collide player with drop item and equip it
-        game.physics.arcade.overlap(hunterS, dropR1S, function(hunterS, dropR1S){pick_up(hunterS, dropR1S, dropR1 );}, null, this);
         
         // kill player if health below zero
         if(hunter.health <= 0){
@@ -368,7 +363,7 @@ sun_stone.state3.prototype = {
             hunter.health = 0;
             attacking = true;
             // death text
-            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px Arial", fill: "#ff0044", align: "center" });
+            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px VT323", fill: "#ff0044", align: "center" });
             d_text.anchor.setTo(0.5,0.5);
             //hunterS.animations.play('death'); 
             if(hunter.death == false){
@@ -381,11 +376,35 @@ sun_stone.state3.prototype = {
             
         }
         
-        
-        
-        if (inventory.keyR1 == true){
-            room1Door.frame = 1
+        // drop key for next door when two bosses killed
+        if (level_3_flag <= 0){
+            
+            if(!cleared3){
+                // spawn key
+                key3 = game.add.sprite(600, 300, 'key');
+                key3.scale.setTo(0.5,0.5);
+                // set physics
+                game.physics.arcade.enable(key3);
+            }
+            
+            // reset flag
+            level_3_flag = 2;
         }
+        
+        // collide player with key to put into inventory
+        game.physics.arcade.overlap(hunterS, key3, pickupK3, null, this);
+        
+        // open door when key is picked up
+        if (inventory.keyR3){
+            room3Door2.frame = 1;
+        }
+        
+        // set up passing through door with key 
+        if (room3Door2.frame == 1){
+            // enter room4
+            game.physics.arcade.overlap(hunterS, room3Door2, room4Enter, null, this);
+        }
+        
         
         game.physics.arcade.moveToObject(mage1, hunterS, 100);
         game.physics.arcade.moveToObject(mage2, hunterS, 25);
@@ -394,3 +413,20 @@ sun_stone.state3.prototype = {
     }
 };
 
+
+// put key 3 into inventory, set flags
+function pickupK3(hunterS, key3){
+    // kill sprite
+    key3.kill();
+    
+    key_sound.play();
+    // change boolean in inventory
+    inventory.keyR3 = true;
+    
+    
+    
+    // change cleared flag
+    cleared3 = true;
+    
+    console.log(inventory.keyR3);
+}

@@ -1,3 +1,4 @@
+var level_8_flag = false, cleared8 = false, key8, dropR8, dropR8S;
 sun_stone.state8 = function(){};
 sun_stone.state8.prototype = {
     preload: function(){
@@ -38,11 +39,11 @@ sun_stone.state8.prototype = {
         hunterS.animations.add('move_r', [22,23,24,25,26,27], 10, false);
         hunterS.animations.add('idle', [0,1,2,3], 10, true);
         // create animations for attacks
-        hunterS.animations.add('att_r', [40,41,42,43,44], 10, false);
-        hunterS.animations.add('att_l', [45,46,47,48,49], 10, false);
-        hunterS.animations.add('att_u', [55,56,57,58,59], 10, false);
-        hunterS.animations.add('att_d', [50,51,52,53,54], 10, false);
-        hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 10, false);
+        hunterS.animations.add('att_r', [40,41,42,43,44], 15, false);
+        hunterS.animations.add('att_l', [45,46,47,48,49], 15, false);
+        hunterS.animations.add('att_u', [55,56,57,58,59], 15, false);
+        hunterS.animations.add('att_d', [50,51,52,53,54], 15, false);
+        hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 7, false);
         
         
         
@@ -87,11 +88,17 @@ sun_stone.state8.prototype = {
         mage11.animations.add('walk', [0,1,2,3,4,5,6,7,8,9,10,11], 12, true);
         mage11.animations.play('walk');
         
-        mage12 = enemy.create(605,342.5,'knight');
+        
+        //enemy mage
+        enemy1 = game.add.group();
+        enemy1.enableBody = true;
+        enemy1.forEach(function(mage1){mage1.body.bounce.x=1});
+        
+        mage12 = enemy1.create(605,342.5,'knight');
         mage12.scale.setTo(1.7,1.7);
-        create_enemy(mage12,0,0,1,1,100);
         mage12.animations.add('walk', [0,1,2,3,4,5,6,7,8,9,10,11], 12, true);
         mage12.animations.play('walk');
+        mage12.health = 150;
         
         mage13 = enemy.create(1175,75,'knight');
         mage13.scale.setTo(1.3,1.3);
@@ -134,9 +141,9 @@ sun_stone.state8.prototype = {
         attKey.onDown.add(melee_attack, this);
         
         // show health of player
-        health_stat = game.add.text(16, 16, 'Health: ' + hunter.health, { fontSize: '32px', fill: '#fff' });
-        // show mana of player
-        mana_stat = game.add.text(16, 45, 'Mana: ' + hunter.mana, { fontSize: '32px', fill: '#fff' });
+        health_stat = game.add.text(45, 8, 'Health: ' + hunter.health, { font: "32px VT323", fill: '#fff' });
+        
+        mana_stat = game.add.text(300, 8, 'Mana: ' + hunter.mana, { font: "32px VT323", fill: '#fff' });
         
         
         
@@ -289,7 +296,8 @@ sun_stone.state8.prototype = {
         game.physics.arcade.overlap(mage9, spells_ud, damage3, null,this);
         game.physics.arcade.overlap(mage10, spells_ud, damage3, null,this);
         game.physics.arcade.overlap(mage11, spells_ud, damage3, null,this);
-        game.physics.arcade.overlap(mage12, spells_ud, damage3, null,this);
+        game.physics.arcade.overlap(mage12, spells_ud, damage9, null,this);
+        game.physics.arcade.overlap(mage12, spells_lr, damage9, null,this);
         game.physics.arcade.overlap(mage13, spells_ud, damage3, null,this);
         game.physics.arcade.overlap(mage14, spells_ud, damage3, null,this);
         game.physics.arcade.overlap(mage15, spells_ud, damage3, null,this);
@@ -307,7 +315,7 @@ sun_stone.state8.prototype = {
         game.physics.arcade.overlap(mage9, hitboxes, damage4, null, this);
         game.physics.arcade.overlap(mage10, hitboxes, damage4, null, this);
         game.physics.arcade.overlap(mage11, hitboxes, damage4, null, this);
-        game.physics.arcade.overlap(mage12, hitboxes, damage4, null, this);
+        game.physics.arcade.overlap(mage12, hitboxes, damage10, null, this);
         game.physics.arcade.overlap(mage13, hitboxes, damage4, null, this);
         game.physics.arcade.overlap(mage14, hitboxes, damage4, null, this);
         game.physics.arcade.overlap(mage15, hitboxes, damage4, null, this);
@@ -339,10 +347,10 @@ sun_stone.state8.prototype = {
         
         
         // collide player with key to put into inventory
-        game.physics.arcade.overlap(hunterS, key1, pickupK1, null, this);
+        game.physics.arcade.overlap(hunterS, key8, pickupK8, null, this);
         
         // collide player with drop item and equip it
-        game.physics.arcade.overlap(hunterS, dropR1S, function(hunterS, dropR1S){pick_up(hunterS, dropR1S, dropR1 );}, null, this);
+        game.physics.arcade.overlap(hunterS, dropR8S, function(hunterS, dropR8S){pick_up(hunterS, dropR8S, dropR8 );}, null, this);
         
         // kill player if health below zero
         if(hunter.health <= 0){
@@ -350,7 +358,7 @@ sun_stone.state8.prototype = {
             hunter.health = 0;
             attacking = true;
             // death text
-            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px Arial", fill: "#ff0044", align: "center" });
+            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px VT323", fill: "#ff0044", align: "center" });
             d_text.anchor.setTo(0.5,0.5);
             //hunterS.animations.play('death'); 
             if(hunter.death == false){
@@ -365,8 +373,66 @@ sun_stone.state8.prototype = {
         
         
         
+        // drop key and item 
+        if(level_8_flag){
+            if(!cleared8){
+                // spawn key
+                key8 = game.add.sprite(600, 300, 'key');
+                key8.scale.setTo(0.5,0.5);
+                // set physics
+                game.physics.arcade.enable(key8);
+                
+                // get random item
+                drop_idx = rand_d();
+                dropR8 = drop_items[drop_idx];
+                console.log(drop_idx);
+                console.log(dropR8);
+            
+                // random drop for room 8
+                dropR8S = game.add.sprite(500, 300, 'chest');
+                dropR8S.scale.setTo(0.5,0.5);
+                // enable physics
+                game.physics.arcade.enable(dropR8S);
+            }
+            
+            // reset flag
+            level_8_flag = false;
+        }
+        
+        
     }
     
     
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// put key 8 into inventory, set flags
+function pickupK8(hunterS, key8){
+    // kill sprite
+    key8.kill();
+    
+    key_sound.play();
+    // change boolean in inventory
+    inventory.keyR8 = true;
+    
+    
+    
+    // change cleared flag
+    cleared8 = true;
+    
+    console.log(inventory.keyR8);
+}
+
 

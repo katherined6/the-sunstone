@@ -16,7 +16,7 @@ sun_stone.state1.prototype = {
         game.load.spritesheet('hunterS', 'assets/sprites/hero_sprite_sheet.png', 67, 52, 108);
         
         //load rat asset
-        game.load.image('rat', 'assets/sprites/rat.png');
+        //game.load.image('rat', 'assets/sprites/rat.png');
         
         //load boots asset
         game.load.image('boots', 'assets/sprites/boots.png')
@@ -48,6 +48,8 @@ sun_stone.state1.prototype = {
 
         //load enemy asset
         game.load.spritesheet('enemymage', 'assets/sprites/YeOldyNecroGuy.png', 21, 22, 6);
+        //replaced rat sprite with slime, didn't change variable name
+        game.load.spritesheet('rat', 'assets/sprites/slime-Sheet.png', 32, 25, 6);
         game.load.spritesheet('enemywizard', 'assets/sprites/wizard.png', 80, 62, 6);
         
        // game.load.spritesheet('zombiewizard', 'assets/sprites/zombiewizard.png', 30, 53, 12);
@@ -101,11 +103,11 @@ sun_stone.state1.prototype = {
         hunterS.animations.add('move_r', [22,23,24,25,26,27], 10, false);
         hunterS.animations.add('idle', [0,1,2,3], 10, true);
         // create animations for attacks
-        hunterS.animations.add('att_r', [40,41,42,43,44], 10, false);
-        hunterS.animations.add('att_l', [45,46,47,48,49], 10, false);
-        hunterS.animations.add('att_u', [55,56,57,58,59], 10, false);
-        hunterS.animations.add('att_d', [50,51,52,53,54], 10, false);
-        hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 10, false);
+        hunterS.animations.add('att_r', [40,41,42,43,44], 15, false);
+        hunterS.animations.add('att_l', [45,46,47,48,49], 15, false);
+        hunterS.animations.add('att_u', [55,56,57,58,59], 15, false);
+        hunterS.animations.add('att_d', [50,51,52,53,54], 15, false);
+        hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 7, false);
         
     
         //enable physics on hunter
@@ -117,7 +119,7 @@ sun_stone.state1.prototype = {
         
         
         // door sprite
-        room1Door = game.add.sprite(640, 48, 'door');
+        room1Door = game.add.sprite(620, 48, 'door');
         game.physics.arcade.enable(room1Door);
         
         
@@ -127,12 +129,7 @@ sun_stone.state1.prototype = {
         game.physics.arcade.enable(room1Door2);
     
         
-        // tutorial 1 text
-        if(t_1_flag){
-            t_text_1 = game.add.text(game.world.centerX, game.world.centerY, "Move with arrow keys\nSpell attack with spacebar (uses mana)\nMelee attack with A\nClear level of enemies\nClick to remove messages", { font: "50px Arial", fill: "#ff0044", align: "center" });
-            t_text_1.anchor.setTo(0.5,0.5);
-            game.input.onDown.addOnce(removeText, this);
-        }
+        
         
         
         // create spells for projectiles
@@ -208,10 +205,16 @@ sun_stone.state1.prototype = {
             
         }
         
-        health_stat = game.add.text(16, 16, 'Health: ' + hunter.health, { fontSize: '32px', fill: '#fff' });
+        health_stat = game.add.text(45, 8, 'Health: ' + hunter.health, { font: "32px VT323", fill: '#fff' });
         
-        mana_stat = game.add.text(16, 45, 'Mana: ' + hunter.mana, { fontSize: '32px', fill: '#fff' });
+        mana_stat = game.add.text(300, 8, 'Mana: ' + hunter.mana, { font: "32px VT323", fill: '#fff' });
         
+        // tutorial 1 text
+        if(t_1_flag){
+            t_text_1 = game.add.text(game.world.centerX, game.world.centerY, "Move with arrow keys\nCast spells with spacebar\nMelee attack with A\nClear level of enemies\n\nClick to remove messages", { font: "48px VT323", fill: "#ff0044", align: "center" });
+            t_text_1.anchor.setTo(0.5,0.5);
+            game.input.onDown.addOnce(removeText, this);
+        }
         
         // adjust sprite hitbox
         hunterS.body.setSize(23,34,23,13);
@@ -378,7 +381,7 @@ sun_stone.state1.prototype = {
             hunter.health = 0;
             attacking = true;
             // death text
-            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px Arial", fill: "#ff0044", align: "center" });
+            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "48px VT323", fill: "#ff0044", align: "center" });
             d_text.anchor.setTo(0.5,0.5);
             if(hunter.death == false){
                 hunterS.animations.play('death');
@@ -394,7 +397,7 @@ sun_stone.state1.prototype = {
         // spawn key and random drop when all enemies dead // tutorial 2 for picking up items
         if (level_flag <= 0 & cleared){
             // tutorial 2 text
-            t_text_2 = game.add.text(game.world.centerX, game.world.centerY, "Touch items to pick them up\nThey will be automatically equipped for now\nPress D on doors to use\nPress P to pause and check stats", { font: "50px Arial", fill: "#ff0044", align: "center" });
+            t_text_2 = game.add.text(game.world.centerX, game.world.centerY, "Run over items to pick them up\nChests give random beneficial stats\nPause to check stats using P\nEnter doors with D", { font: "48px VT323", fill: "#ff0044", align: "center" });
             t_text_2.anchor.setTo(0.5,0.5);
             game.input.onDown.addOnce(removeText2, this);
         
@@ -442,54 +445,6 @@ sun_stone.state1.prototype = {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function melee_attack(){
-    attacking = true;
-    sword_slash.play();
-    
-    if(last_arrow == 0){
-        hitbox = hitboxes.create(0,0,null);
-        hitbox.anchor.setTo(.5,.5);
-        hitbox.enableBody = false;
-        hunterS.animations.play('att_l');
-        hitbox.body.setSize(15,30,5,15);
-        hitbox.enableBody = true;
-        
-    }
-    else if(last_arrow == 1){
-        hitbox = hitboxes.create(0,0,null);
-        hitbox.anchor.setTo(.5,.5);
-        hitbox.enableBody = false;
-        hunterS.animations.play('att_r');
-        hitbox.body.setSize(15,30,50,15);
-        hitbox.enableBody = true;
-    }
-    else if(last_arrow == 2){
-        hitbox = hitboxes.create(0,0,null);
-        hitbox.anchor.setTo(.5,.5);
-        hitbox.enableBody = false;
-        hunterS.animations.play('att_d');
-        hitbox.body.setSize(50,15,11,40);
-        hitbox.enableBody = true;
-    }
-    else if(last_arrow == 3){
-        hitbox = hitboxes.create(0,0,null);
-        hitbox.anchor.setTo(.5,.5);
-        hitbox.enableBody = false;
-        hunterS.animations.play('att_u');
-        hitbox.body.setSize(50,15,11,0);
-        hitbox.enableBody = true;
-    }
-    
-    var moveTimer = game.time.create(true);
-    moveTimer.add(700, function(){ attacking = false;}, this);
-    moveTimer.start();
-
-    var hitboxTimer = game.time.create(true);
-    hitboxTimer.add(500, function(){ hitbox.kill();}, this);
-    hitboxTimer.start();
-
-}
-
 
 //function to remove ututorial 1 text
 function removeText(){
@@ -516,33 +471,6 @@ function ratWallCollision(rat, walls){
 }
 
 
-
-// attack
-function attack(){
-    attacking = true;
-    
-    if(last_arrow == 0){
-        hunterS.animations.play('att_l');
-        sp_attack_l();
-    }
-    else if(last_arrow == 1){
-        hunterS.animations.play('att_r');
-        sp_attack_r();
-    }
-    else if(last_arrow == 2){
-        hunterS.animations.play('att_d');
-        sp_attack_d();
-    }
-    else if(last_arrow == 3){
-        hunterS.animations.play('att_u');
-        sp_attack_u();
-    }
-    
-    var moveTimer = game.time.create(true);
-    moveTimer.add(700, function(){ attacking = false;}, this);
-    moveTimer.start();
-
-}
 
 
 
@@ -571,18 +499,18 @@ function startPause(){
         //pause_sound.play();
         game.paused = true;
         
-        menu = game.add.text(1280/2, 720/2, 'Menu', {fill: '#fff' });
+        menu = game.add.text(1280/2, 720/2, 'Game Paused', {font: "45px VT323", fill: '#fff' });
         menu.anchor.setTo(0.5, 0.5);
         
         
         
-        m_attack_stat = game.add.text(16, 74, 'Melee Attack: ' + hunter.melee_attack, { fontSize: '32px', fill: '#fff' });
+        armor_stat = game.add.text(100, 700, 'Armor: ' + hunter.armor, { font: "32px VT323", fill: '#fff' });
         
-        s_attack_stat = game.add.text(16, 103, 'Spell Cost: ' + hunter.spell_attack, { fontSize: '32px', fill: '#fff' });
+        m_attack_stat = game.add.text(350, 700, 'Melee Damage: ' + hunter.melee_attack, { font: "32px VT323", fill: '#fff' });
         
-        armor_stat = game.add.text(16, 131, 'Armor: ' + hunter.armor, { fontSize: '32px', fill: '#fff' });
+        s_attack_stat = game.add.text(725, 700, 'Spell Cost: ' + hunter.spell_attack, { font: "32px VT323", fill: '#fff' });
         
-        speed_stat = game.add.text(16, 160, 'Speed: ' + hunter.speed, { fontSize: '32px', fill: '#fff' });
+        speed_stat = game.add.text(1050, 700, 'Speed: ' + hunter.speed, { font: "32px VT323", fill: '#fff' });
         
     }
     else {
@@ -600,86 +528,13 @@ function startPause(){
     
 }
 
-// shoot spell left
-function sp_attack_l(){
-    if((hunter.mana >= hunter.spell_attack) & (game.time.now > nFire)){
-        spellcast_sound.play();
-        nFire = game.time.now + fireR;
-        var spell1 = spells_lr.getFirstDead();
-        hunter.mana = hunter.mana - hunter.spell_attack;
-        spell1.scale.setTo(-1,1);
-        spell1.reset(hunterS.x + 40, hunterS.y + 20);
-        spell1.body.velocity.x = -400;
-        
-    }   
-}
-// shoot spell right
-function sp_attack_r(){
-    if((hunter.mana >= hunter.spell_attack) & (game.time.now > nFire)){
-        spellcast_sound.play();
-        nFire = game.time.now + fireR;
-        var spell1 = spells_lr.getFirstDead();
-        hunter.mana = hunter.mana - hunter.spell_attack;
-        spell1.scale.setTo(1,1);
-        spell1.reset(hunterS.x + 25, hunterS.y + 20);
-        spell1.body.velocity.x = 400;
-        
-    }    
-}
-//IN TESTING
-function sp_attack_u(){
-    if((hunter.mana >= hunter.spell_attack) & (game.time.now > nFire)){
-        spellcast_sound.play();
-        nFire = game.time.now + fireR;
-        var spell1 = spells_ud.getFirstDead();
-        hunter.mana = hunter.mana - hunter.spell_attack;
-        spell1.scale.setTo(1,1);
-        spell1.reset(hunterS.x + 25, hunterS.y - 10 );
-        spell1.body.velocity.y = -400;
-        
-    }   
-}
-//IN TESTING
-function sp_attack_d(){
-    if((hunter.mana >= hunter.spell_attack) & (game.time.now > nFire)){
-        spellcast_sound.play();
-        nFire = game.time.now + fireR;
-        var spell1 = spells_ud.getFirstDead();
-        hunter.mana = hunter.mana - hunter.spell_attack;
-        spell1.scale.setTo(1,-1);
-        spell1.reset(hunterS.x + 25, hunterS.y + 70);
-        spell1.body.velocity.y = 400;
-        
-    }   
-}
 
 function spellCollide (walls, spell1){
     //kill doesn't work, needs debugging
     walls.kill();
 }
 
-function damage1 (rat, spell1){
-    spell1.kill();
-    rat.kill();
-    magedeath_sound.play();
-    // reduce level flag to show enemy killed
-    level_flag = level_flag - 1;
-    console.log(level_flag);
-}
 
-
-function damage2 (hunters, rat){
-    if(game.time.now > nDamage){
-        nDamage = game.time.now + dpsTime;
-        if (hunter.health > 0){
-            player_damage_sound.play();
-        }
-        hunter.health = hunter.health - 15;
-        
-        
-        
-    }
-}
 
 function create_enemy(enemy, x_velocity, y_velocity, x_bounce, y_bounce, health){
 

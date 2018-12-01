@@ -1,3 +1,4 @@
+var level_7_flag = false, cleared7 = false, key7, dropR7, dropR7S;
 sun_stone.state7 = function(){};
 sun_stone.state7.prototype = {
     preload: function(){
@@ -38,11 +39,11 @@ sun_stone.state7.prototype = {
         hunterS.animations.add('move_r', [22,23,24,25,26,27], 10, false);
         hunterS.animations.add('idle', [0,1,2,3], 10, true);
         // create animations for attacks
-        hunterS.animations.add('att_r', [40,41,42,43,44], 10, false);
-        hunterS.animations.add('att_l', [45,46,47,48,49], 10, false);
-        hunterS.animations.add('att_u', [55,56,57,58,59], 10, false);
-        hunterS.animations.add('att_d', [50,51,52,53,54], 10, false);
-        hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 10, false);
+        hunterS.animations.add('att_r', [40,41,42,43,44], 15, false);
+        hunterS.animations.add('att_l', [45,46,47,48,49], 15, false);
+        hunterS.animations.add('att_u', [55,56,57,58,59], 15, false);
+        hunterS.animations.add('att_d', [50,51,52,53,54], 15, false);
+        hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 7, false);
         
         
         
@@ -123,11 +124,18 @@ sun_stone.state7.prototype = {
         mage25.animations.add('walk', [0,1,2,3,4,5,6,7,8,9,10,11], 12, true);
         mage25.animations.play('walk');
         
-        mage26 = enemy.create(618.5,200,'spider');
-        create_enemy(mage26,0,0,1,1,100);
+        
+        //enemy mage
+        enemy1 = game.add.group();
+        enemy1.enableBody = true;
+        enemy1.forEach(function(mage1){mage1.body.bounce.x=1});
+        
+        mage26 = enemy1.create(618.5,200,'spider');
         mage26.scale.setTo(2.5,2.5);
         mage26.animations.add('walk', [0,1,2,3,4,5,6,7,8,9,10,11], 12, true);
         mage26.animations.play('walk');
+        game.physics.arcade.enable(mage26);
+        mage26.health = 150;
         
         mage27 = enemy.create(812,65,'spider');
         create_enemy(mage27,0,0,1,1,20);
@@ -164,9 +172,9 @@ sun_stone.state7.prototype = {
         attKey.onDown.add(melee_attack, this);
         
         // show health of player
-        health_stat = game.add.text(16, 16, 'Health: ' + hunter.health, { fontSize: '32px', fill: '#fff' });
-        // show mana of player
-        mana_stat = game.add.text(16, 45, 'Mana: ' + hunter.mana, { fontSize: '32px', fill: '#fff' });
+        health_stat = game.add.text(45, 8, 'Health: ' + hunter.health, { font: "32px VT323", fill: '#fff' });
+        
+        mana_stat = game.add.text(300, 8, 'Mana: ' + hunter.mana, { font: "32px VT323", fill: '#fff' });
         
         
         
@@ -322,7 +330,7 @@ sun_stone.state7.prototype = {
         game.physics.arcade.overlap(mage18, spells_ud, damage3, null,this);
        
         game.physics.arcade.overlap(mage25, spells_ud, damage3, null,this);
-        game.physics.arcade.overlap(mage26, spells_ud, damage3, null,this);
+        game.physics.arcade.overlap(mage26, spells_ud, damage7, null,this);
         game.physics.arcade.overlap(mage27, spells_ud, damage3, null,this);
         game.physics.arcade.overlap(mage28, spells_ud, damage3, null,this);
         game.physics.arcade.overlap(mage29, spells_ud, damage3, null,this);
@@ -347,7 +355,7 @@ sun_stone.state7.prototype = {
         game.physics.arcade.overlap(mage18, hitboxes, damage4, null, this);
        
         game.physics.arcade.overlap(mage25, hitboxes, damage4, null, this);
-        game.physics.arcade.overlap(mage26, hitboxes, damage4, null, this);
+        game.physics.arcade.overlap(mage26, hitboxes, damage8, null, this);
         game.physics.arcade.overlap(mage27, hitboxes, damage4, null, this);
         game.physics.arcade.overlap(mage28, hitboxes, damage4, null, this);
         game.physics.arcade.overlap(mage29, hitboxes, damage4, null, this);
@@ -390,10 +398,10 @@ sun_stone.state7.prototype = {
         
         
         // collide player with key to put into inventory
-        game.physics.arcade.overlap(hunterS, key1, pickupK1, null, this);
+        game.physics.arcade.overlap(hunterS, key7, pickupK7, null, this);
         
         // collide player with drop item and equip it
-        game.physics.arcade.overlap(hunterS, dropR1S, function(hunterS, dropR1S){pick_up(hunterS, dropR1S, dropR1 );}, null, this);
+        game.physics.arcade.overlap(hunterS, dropR7S, function(hunterS, dropR7S){pick_up(hunterS, dropR7S, dropR7 );}, null, this);
         
         // kill player if health below zero
         if(hunter.health <= 0){
@@ -401,7 +409,7 @@ sun_stone.state7.prototype = {
             hunter.health = 0;
             attacking = true;
             // death text
-            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px Arial", fill: "#ff0044", align: "center" });
+            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px VT323", fill: "#ff0044", align: "center" });
             d_text.anchor.setTo(0.5,0.5);
             //hunterS.animations.play('death'); 
             if(hunter.death == false){
@@ -414,9 +422,63 @@ sun_stone.state7.prototype = {
             
         }
         
+        // drop key and item 
+        if(level_7_flag){
+            if(!cleared7){
+                // spawn key
+                key7 = game.add.sprite(600, 300, 'key');
+                key7.scale.setTo(0.5,0.5);
+                // set physics
+                game.physics.arcade.enable(key7);
+                
+                // get random item
+                drop_idx = rand_d();
+                dropR7 = drop_items[drop_idx];
+                console.log(drop_idx);
+                console.log(dropR7);
+            
+                // random drop for room 1
+                dropR7S = game.add.sprite(500, 300, 'chest');
+                dropR7S.scale.setTo(0.5,0.5);
+                // enable physics
+                game.physics.arcade.enable(dropR7S);
+            }
+            
+            // reset flag
+            level_7_flag = false;
+        }
         
         
     }
     
     
 };
+
+
+
+
+
+
+
+
+
+
+
+
+// put key 7 into inventory, set flags
+function pickupK7(hunterS, key7){
+    // kill sprite
+    key7.kill();
+    
+    key_sound.play();
+    // change boolean in inventory
+    inventory.keyR7 = true;
+    
+    
+    
+    // change cleared flag
+    cleared7 = true;
+    
+    console.log(inventory.keyR7);
+}
+
