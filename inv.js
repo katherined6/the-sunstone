@@ -16,8 +16,14 @@ inventory.keyR1 = false;
 inventory.keyR2 = false;
 
 
+// boolean for third key
+inventory.keyR3 = false;
 
+// boolean for fourth key
+inventory.keyR7 = false;
 
+// boolean for fifth key
+inventory.keyR8 = false;
 
-
-
+// boolean for sixth key
+inventory.keyR9 = false;

@@ -10,5 +10,6 @@ game.state.add('state7', sun_stone.state7);
 game.state.add('state8', sun_stone.state8);
 game.state.add('state9', sun_stone.state9);
 game.state.add('state10', sun_stone.state10);
+game.state.add('stateEND', sun_stone.stateEND);
 
 game.state.start('state0');

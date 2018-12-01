@@ -1,4 +1,7 @@
 changelog
+Game 38
+- added all keys and drops
+
 Game 36
 - all levels now connected
 

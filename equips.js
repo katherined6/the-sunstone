@@ -16,7 +16,7 @@ function equipS (item){
     inventory.item_list.push(item);
     
     // can only equip up to 3 items
-    if(inventory.equipped < 3){
+    if(inventory.equipped < 5){
         // will go through each num in list to update stats
         for(var i = 0; i < item.length-1; i++){
             if(i==0) {hunter.health_max += item[i]; hunter.health += item[i];}

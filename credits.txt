@@ -1,1 +1,2 @@
 tile set = https://thewisehedgehog.itch.io/tdts
+slime sprite = https://rvros.itch.io/pixel-art-animated-slime
