@@ -15,7 +15,7 @@ function equipS (item){
     // move item into inventory list
     inventory.item_list.push(item);
     
-    // can only equip up to 3 items
+    // can only equip up to 5 items
     if(inventory.equipped < 5){
         // will go through each num in list to update stats
         for(var i = 0; i < item.length-1; i++){

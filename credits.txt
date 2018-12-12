@@ -1,2 +1,29 @@
 tile set = https://thewisehedgehog.itch.io/tdts
-slime sprite = https://rvros.itch.io/pixel-art-animated-slime
+slime sprite = Rvros https://rvros.itch.io/pixel-art-animated-slime
+title screen background = https://opengameart.org/users/ansimuz
+final boss sprite = https://uilleaggodwin.itch.io/roguelike-dungeon-asset-bundle
+knight sprite = Warren Clark https://lionheart963.itch.io/knight-sprite
+mage sprite =
+player sprite =
+wizard sprite = Warren Clark https://lionheart963.itch.io/wizard
+sunstone sprite = Alex's Assets https://alexs-assets.itch.io/16x16-rpg-item-pack
+campfire sprite = Zabin and Jetrel from OGA
+zombie mage sprite = Warren Clark https://lionheart963.itch.io/the-summoner
+spell projectile sprite = 
+spider sprite = 
+key sprite =
+
+
+
+
+
+sounds from freesound.org
+sword_slash = nextmaking
+spellcast_sound = ctcollab
+running_sound = bevangoldswain
+player_damage_sound = christopherderp
+magedeath_sound = soundrangers.com
+key_sound = lux244
+ghost_damage_sound = sonidotv
+
+start_menu music= Attributed to Trevor Lentz https://opengameart.org/users/trevor-lentz

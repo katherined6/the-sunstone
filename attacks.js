@@ -1,5 +1,12 @@
+var nAtt = 0, attRate = 500;
+
 function melee_attack(){
-    if (hunter.health > 0){
+    
+    if(game.time.now > nAtt){
+        
+        nAtt = game.time.now + attRate;
+        
+        if (hunter.health > 0){
         attacking = true;
         sword_slash.play();
 
@@ -8,7 +15,7 @@ function melee_attack(){
             hitbox.anchor.setTo(.5,.5);
             hitbox.enableBody = false;
             hunterS.animations.play('att_l');
-            hitbox.body.setSize(15,30,5,15);
+            hitbox.body.setSize(25,30,5,15);
             hitbox.enableBody = true;
 
         }
@@ -17,7 +24,7 @@ function melee_attack(){
             hitbox.anchor.setTo(.5,.5);
             hitbox.enableBody = false;
             hunterS.animations.play('att_r');
-            hitbox.body.setSize(15,30,50,15);
+            hitbox.body.setSize(25,30,50,15);
             hitbox.enableBody = true;
         }
         else if(last_arrow == 2){
@@ -25,7 +32,7 @@ function melee_attack(){
             hitbox.anchor.setTo(.5,.5);
             hitbox.enableBody = false;
             hunterS.animations.play('att_d');
-            hitbox.body.setSize(50,15,11,40);
+            hitbox.body.setSize(50,25,11,40);
             hitbox.enableBody = true;
         }
         else if(last_arrow == 3){
@@ -33,7 +40,7 @@ function melee_attack(){
             hitbox.anchor.setTo(.5,.5);
             hitbox.enableBody = false;
             hunterS.animations.play('att_u');
-            hitbox.body.setSize(50,15,11,0);
+            hitbox.body.setSize(50,25,11,0);
             hitbox.enableBody = true;
         }
 
@@ -44,34 +51,41 @@ function melee_attack(){
         var hitboxTimer = game.time.create(true);
         hitboxTimer.add(500, function(){ hitbox.kill();}, this);
         hitboxTimer.start();
-    }
+        }
 
+    }
+    
+    
 }
 
 
 
 // attack
 function attack(){
-    if (hunter.health > 0){
-        attacking = true;
+    if((hunter.mana >= hunter.spell_attack) & (game.time.now > nFire)){
+        if (hunter.health > 0){
+            attacking = true;
     
+            if(last_arrow == 0){
+                hunterS.animations.play('att_l');
+                sp_attack_l();
+            }
+            else if(last_arrow == 1){
+                hunterS.animations.play('att_r');
+                sp_attack_r();
+            }
+            else if(last_arrow == 2){
+                hunterS.animations.play('att_d');
+                sp_attack_d();
+            }
+            else if(last_arrow == 3){
+                hunterS.animations.play('att_u');
+                sp_attack_u();
+            }
     
-        if(last_arrow == 0){
-            hunterS.animations.play('att_l');
-            sp_attack_l();
+            
         }
-        else if(last_arrow == 1){
-            hunterS.animations.play('att_r');
-            sp_attack_r();
-        }
-        else if(last_arrow == 2){
-            hunterS.animations.play('att_d');
-            sp_attack_d();
-        }
-        else if(last_arrow == 3){
-            hunterS.animations.play('att_u');
-            sp_attack_u();
-        }
+    
     
     
         var moveTimer = game.time.create(true);
@@ -84,7 +98,7 @@ function attack(){
 // shoot spell left
 function sp_attack_l(){
     if (hunter.health > 0){
-        if((hunter.mana >= hunter.spell_attack) & (game.time.now > nFire)){
+        
             spellcast_sound.play();
             nFire = game.time.now + fireR;
             var spell1 = spells_lr.getFirstDead();
@@ -93,13 +107,13 @@ function sp_attack_l(){
             spell1.reset(hunterS.x + 40, hunterS.y + 20);
             spell1.body.velocity.x = -400;
 
-        }  
+         
     }
 }
 // shoot spell right
 function sp_attack_r(){
     if (hunter.health > 0){
-        if((hunter.mana >= hunter.spell_attack) & (game.time.now > nFire)){
+     
             spellcast_sound.play();
             nFire = game.time.now + fireR;
             var spell1 = spells_lr.getFirstDead();
@@ -108,13 +122,13 @@ function sp_attack_r(){
             spell1.reset(hunterS.x + 25, hunterS.y + 20);
             spell1.body.velocity.x = 400;
 
-        }    
+        
     }
 }
 //IN TESTING
 function sp_attack_u(){
     if (hunter.health > 0){
-        if((hunter.mana >= hunter.spell_attack) & (game.time.now > nFire)){
+        
             spellcast_sound.play();
             nFire = game.time.now + fireR;
             var spell1 = spells_ud.getFirstDead();
@@ -123,13 +137,13 @@ function sp_attack_u(){
             spell1.reset(hunterS.x + 25, hunterS.y - 10 );
             spell1.body.velocity.y = -400;
 
-        }   
+           
     }
 }
 //IN TESTING
 function sp_attack_d(){
     if (hunter.health > 0){
-        if((hunter.mana >= hunter.spell_attack) & (game.time.now > nFire)){
+        
             spellcast_sound.play();
             nFire = game.time.now + fireR;
             var spell1 = spells_ud.getFirstDead();
@@ -138,6 +152,6 @@ function sp_attack_d(){
             spell1.reset(hunterS.x + 25, hunterS.y + 70);
             spell1.body.velocity.y = 400;
 
-        }   
+           
     }
 }

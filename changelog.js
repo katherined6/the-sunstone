@@ -1,4 +1,25 @@
 changelog
+Game 47
+- added credits
+- fixed bugs
+- changed font colors
+
+Game 46 
+- added health text for enemies that need multiple hits
+- fixed damage done to hunter when armor is too high
+
+Game 45
+- finished final boss
+- fixed resetting flags
+- added death counter variable
+- added items
+- fixed respawn locations
+
+
+Game 41
+- started final boss
+- connected final door to cutscene
+
 Game 38
 - added all keys and drops
 

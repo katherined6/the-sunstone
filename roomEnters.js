@@ -212,3 +212,13 @@ function room10Enter(){
     running_sound.stop();
     walkingSoundPlayed = false;
 }
+
+
+// cutscene after boss
+function cutsceneStart (){
+    var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
+    doorKey.onDown.add(function(){game.state.start('stateEND');}, this);
+    //stop footstep sound
+    running_sound.stop();
+    walkingSoundPlayed = false;
+}
