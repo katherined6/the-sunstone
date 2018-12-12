@@ -1,7 +1,14 @@
+var boss, death1 = false, bProj, nShot = 0, spsTime = 2000;
 sun_stone.state10 = function(){};
 sun_stone.state10.prototype = {
     preload: function(){
         game.load.tilemap('map10', 'assets/tilemaps/map10.json', null, Phaser.Tilemap.TILED_JSON);
+        
+        // load boss walk sprite
+        game.load.spritesheet('boss_walk', 'assets/sprites/boss_walk.png', 90,75,4);
+        
+        // load boss projectile
+        game.load.image('b_proj', 'assets/sprites/boss_projectile.png');
     },
     
     create: function(){
@@ -57,21 +64,28 @@ sun_stone.state10.prototype = {
         spells_ud.createMultiple(hunter.mana/hunter.spell_attack, 'spell_ud');
         
         
-        
-        
-        enemy = game.add.group();
+        if(!death1){
+            enemy = game.add.group();
         enemy.enableBody = true;
         enemy.forEach(function(mage){mage.body.bounce.x=1});
-        
-        mage8 = enemy.create(1000,340,'spider');
-        mage8.scale.setTo(2,2);
-        create_enemy(mage8,0,0,1,1,50);
-        mage8.animations.add('walk', [0,1,2,3,4,5,6,7,8,9,10,11], 12, true);
+        mage8 = enemy.create(400,320,'boss_walk');
+        create_enemy(mage8,200,200,1,1,250);
+        mage8.animations.add('walk', [0,1,2,3], 6, true);
         mage8.animations.play('walk');
+        mage8.health = 250;
+        }
         
-     
-
         
+        // create boss and animations
+        /*
+        boss = game.add.sprite(400, 320, 'boss_walk');
+        boss.frame = 0;
+        boss.animations.add('walk', [0,1,2,3], 6, true);
+        // enable physics and collide with world bounds
+        game.physics.arcade.enable(boss);
+        boss.body.collideWorldBounds = true;
+        // give boss health
+        boss.health = 250;*/
         
 
 
@@ -108,7 +122,7 @@ sun_stone.state10.prototype = {
         room10Door2 = game.add.sprite(32, 380, 'door');
         game.physics.arcade.enable(room10Door2);
         room10Door2.rotation = -1.57;
-        room10Door2.frame = 1;
+        room10Door2.frame = 0;
         room10Door2.body.setSize(50,50,0,-40);
         
         
@@ -119,6 +133,21 @@ sun_stone.state10.prototype = {
         hitboxes = game.add.group();
         hitboxes.enableBody = true;
         hunterS.addChild(hitboxes);
+        
+        
+        // phase 1 of boss
+        /*
+        if(!death1){
+            boss.animations.play('walk');
+            boss.body.velocity.x = 100;
+            boss.body.velocity.y = 100;
+        }*/
+        
+        // create projectiles for boss
+        bProj = game.add.group();
+        bProj.enableBody = true;
+        bProj.physicsBodyType = Phaser.Physics.ARCADE;
+        bProj.createMultiple(2000,'b_proj');
         
         
         
@@ -134,17 +163,41 @@ sun_stone.state10.prototype = {
         
         
         game.physics.arcade.collide(hunterS, walls);
-        game.physics.arcade.collide(rats, walls);
+        //game.physics.arcade.collide(boss, walls);
         game.physics.arcade.collide(enemy, walls);
+
+        
+        // first phase 
+        if(!death1){
+            //bossBounce();
+            // timer for projectiles
+            if(game.time.now > nShot){
+                nShot = game.time.now + spsTime;
+                bossProj();
+            }
+        }
+        
+        
+        
+        
         
         if(room10Door1.frame == 1){
             game.physics.arcade.overlap(hunterS, room10Door1, room9Enter2, null, this);
         }
         
         
-        if(room10Door2.frame == 1){
-            game.physics.arcade.overlap(hunterS, room10Door2, room1Enter, null, this);
+        
+        if(death1){
+            room10Door2.frame = 1;
         }
+        
+        if(room10Door2.frame == 1){
+            game.physics.arcade.overlap(hunterS, room10Door2, cutsceneStart, null, this);
+        }
+        
+        
+        
+        
         
         //update stats
         health_stat.setText("Health: "+ hunter.health +"/"+ hunter.health_max)
@@ -152,12 +205,16 @@ sun_stone.state10.prototype = {
         
         //mana regen
         //first number is the timer, second is max mana
-        if (game.time.now - manaTick > 1000){
+        if (game.time.now - manaTick > 750){
             if (hunter.mana < hunter.mana_max) {
                 hunter.mana ++
             }
             manaTick = game.time.now;
         }
+        
+        
+        
+        
         
         //arrow key movement for hunter
         var cursors = game.input.keyboard.createCursorKeys();
@@ -228,57 +285,40 @@ sun_stone.state10.prototype = {
         
         
         
-        // collide spells with rats 
-        game.physics.arcade.overlap(rats, spells_lr, damage1, null, this);
-        
+        // collide spells with walls
         game.physics.arcade.collide(walls, spells_lr, spellCollide, null, this);
-        
-        game.physics.arcade.overlap(enemy, spells_lr, damage1, null,this);
-        
-        //game.physics.arcade.collide(mage1, spells_lr, damage3, null,this);
-        
-        game.physics.arcade.overlap(rats, spells_ud, damage1, null, this);
-        
         game.physics.arcade.collide(walls, spells_ud, spellCollide, null, this);
         
-        game.physics.arcade.overlap(enemy, spells_ud, damage1, null,this);
+        // collide boss projectile with walls
+        game.physics.arcade.collide(walls, bProj, spellCollide, null, this);
         
-        //game.physics.arcade.collide(mage1, spells_ud, damage3, null,this);
-        game.physics.arcade.overlap(mage8, spells_ud, damage3, null,this);
-        
-        
-        
-        // colide melee hitbox with enemies
-        game.physics.arcade.overlap(enemy, hitboxes, damage1, null, this);
-        game.physics.arcade.overlap(rats, hitboxes, damage1, null, this);
-        //game.physics.arcade.collide(mage1, hitboxes, damage4, null, this);
-        game.physics.arcade.overlap(mage8, hitboxes, damage4, null, this);
-        
-
+        // collide spells with boss
+        game.physics.arcade.overlap(enemy, spells_lr, damage14, null, this);
+        game.physics.arcade.overlap(enemy, spells_ud, damage14, null, this);
         
         
-        // collide player with rat
-        game.physics.arcade.overlap(hunterS, rats, damage2, null, this);
         
-        game.physics.arcade.overlap(hunterS, enemy, damage2, null, this);
+        // collide melee hitbox with enemies
+        game.physics.arcade.overlap(enemy, hitboxes, damage15, null, this);
+       
+       
         
-        //game.physics.arcade.overlap(hunterS, mage1, damage2, null, this);
-        game.physics.arcade.overlap(hunterS, mage8, damage2, null, this);
+        
+        // collide player with boss
+        game.physics.arcade.overlap(hunterS, enemy, damage16, null, this);
+        // collide boss projectiles w player
+        game.physics.arcade.overlap(hunterS, bProj, damage17, null, this);
       
-        
-        // collide player with key to put into inventory
-        game.physics.arcade.overlap(hunterS, key1, pickupK1, null, this);
-        
-        // collide player with drop item and equip it
-        game.physics.arcade.overlap(hunterS, dropR1S, function(hunterS, dropR1S){pick_up(hunterS, dropR1S, dropR1 );}, null, this);
         
         // kill player if health below zero
         if(hunter.health <= 0){
             //hunterS.kill();
             hunter.health = 0;
             attacking = true;
+            running_sound.stop();
+            walkingSoundPlayed = false;
             // death text
-            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px VT323", fill: "#ff0044", align: "center" });
+            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px VT323", fill: "#fce923", align: "center" });
             d_text.anchor.setTo(0.5,0.5);
             //hunterS.animations.play('death');  
             if(hunter.death == false){
@@ -290,9 +330,35 @@ sun_stone.state10.prototype = {
             restartKey.onDown.add(restartAtLevel1, this);
             
         }
+        
+       
            
         
     }
     
     
 };
+
+
+
+
+
+
+
+// first phase boss patterns
+/*
+function bossBounce(){
+    boss.body.bounce.x = 1;
+    boss.body.bounce.y = 1;
+}*/
+// fire projectile
+function bossProj(){
+    // make projectile
+    var bProj1 = bProj.getFirstDead();
+    // set projectile near boss
+    bProj1.reset(mage8.x + 45, mage8.y + 45);
+    // angle projectile towards player
+    bProj1.rotation = Math.atan2((hunterS.y + 15) - bProj1.y, (hunterS.x + 10) - bProj1.x);
+    // send projectile towards player
+    game.physics.arcade.moveToXY(bProj1, hunterS.x, hunterS.y, 60);
+}

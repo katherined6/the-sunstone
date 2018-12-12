@@ -66,7 +66,7 @@ sun_stone.state9.prototype = {
         enemy.enableBody = true;
         enemy.forEach(function(mage){mage.body.bounce.x=1});
         
-        mage8 = enemy.create(1200,350,'enemymage');
+        mage8 = enemy.create(700,350,'enemymage');
         mage8.scale.setTo(1.3,1.3);
         create_enemy(mage8,-170,0,1,1,50);
         mage8.animations.add('walk', [0,1,2,3,4,5,6,7,8,9,10,11], 12, true);
@@ -77,7 +77,7 @@ sun_stone.state9.prototype = {
         enemy1 = game.add.group();
         enemy1.enableBody = true;
         enemy1.forEach(function(mage1){mage1.body.bounce.x=1});
-        mage9 = enemy1.create(1000,350,'enemywizard');
+        mage9 = enemy1.create(800,350,'enemywizard');
         mage9.scale.setTo(1.3,1.3);
         mage9.animations.add('walk', [0,1,2,3,4,5,6,7,8,9,10,11], 12, true);
         mage9.animations.play('walk');
@@ -210,7 +210,7 @@ sun_stone.state9.prototype = {
         
         //mana regen
         //first number is the timer, second is max mana
-        if (game.time.now - manaTick > 1000){
+        if (game.time.now - manaTick > 750){
             if (hunter.mana < hunter.mana_max) {
                 hunter.mana ++
             }
@@ -372,8 +372,10 @@ sun_stone.state9.prototype = {
             //hunterS.kill();
             hunter.health = 0;
             attacking = true;
+            running_sound.stop();
+            walkingSoundPlayed = false;
             // death text
-            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px VT323", fill: "#ff0044", align: "center" });
+            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px VT323", fill: "#fce923", align: "center" });
             d_text.anchor.setTo(0.5,0.5);
             //hunterS.animations.play('death'); 
             if(hunter.death == false){
@@ -383,6 +385,9 @@ sun_stone.state9.prototype = {
             restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
             restartKey.onDown.addOnce(removeD_text, this);            
             restartKey.onDown.add(restartAtLevel1, this);
+            
+            // reset flag
+            level_9_flag = 8;
             
         }
         

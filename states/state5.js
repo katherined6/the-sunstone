@@ -292,7 +292,7 @@ sun_stone.state5.prototype = {
         
         //mana regen
         //first number is the timer, second is max mana
-        if (game.time.now - manaTick > 1000){
+        if (game.time.now - manaTick > 750){
             if (hunter.mana < hunter.mana_max) {
                 hunter.mana ++
             }
@@ -496,8 +496,10 @@ sun_stone.state5.prototype = {
             //hunterS.kill();
             hunter.health = 0;
             attacking = true;
+            running_sound.stop();
+            walkingSoundPlayed = false;
             // death text
-            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px VT323", fill: "#ff0044", align: "center" });
+            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "50px VT323", fill: "#fce923", align: "center" });
             d_text.anchor.setTo(0.5,0.5);
             //hunterS.animations.play('death'); 
             if(hunter.death == false){

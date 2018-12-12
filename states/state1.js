@@ -1,5 +1,5 @@
 // object variable, player(hunter) object to hold stats
-var enemy, walls, ground, hunterS, rats, spells_lr, spells_ud, nFire = 0, fireR = 500, rat, nDamage = 0, dpsTime = 1000, level_flag = 5, key1, cleared = true, dropR1, dropR1S, last_arrow=2, manaTick, t_text_1, t_1_flag = true, t_text_2, hitboxes, hitbox, attacking = false, pause_sound, walking = false, walkingSoundPlayed = false, checkPoint = 1;
+var enemy, walls, ground, hunterS, rats, spells_lr, spells_ud, nFire = 0, fireR = 500, rat, nDamage = 0, dpsTime = 1000, level_flag = 5, key1, cleared = true, dropR1, dropR1S, last_arrow=2, manaTick, t_text_1, t_1_flag = true, t_text_2, hitboxes, hitbox, attacking = false, pause_sound, walking = false, walkingSoundPlayed = false, checkPoint = 1, deathCounter = 0;
 
 
 
@@ -103,10 +103,10 @@ sun_stone.state1.prototype = {
         hunterS.animations.add('move_r', [22,23,24,25,26,27], 10, false);
         hunterS.animations.add('idle', [0,1,2,3], 10, true);
         // create animations for attacks
-        hunterS.animations.add('att_r', [40,41,42,43,44], 15, false);
-        hunterS.animations.add('att_l', [45,46,47,48,49], 15, false);
-        hunterS.animations.add('att_u', [55,56,57,58,59], 15, false);
-        hunterS.animations.add('att_d', [50,51,52,53,54], 15, false);
+        hunterS.animations.add('att_r', [40,41,42,43,44], 20, false);
+        hunterS.animations.add('att_l', [45,46,47,48,49], 20, false);
+        hunterS.animations.add('att_u', [55,56,57,58,59], 20, false);
+        hunterS.animations.add('att_d', [50,51,52,53,54], 20, false);
         hunterS.animations.add('death', [101,102,103,104,105,106,107,108,109], 7, false);
         
     
@@ -211,7 +211,7 @@ sun_stone.state1.prototype = {
         
         // tutorial 1 text
         if(t_1_flag){
-            t_text_1 = game.add.text(game.world.centerX, game.world.centerY, "Move with arrow keys\nCast spells with spacebar\nMelee attack with A\nClear level of enemies\n\nClick to remove messages", { font: "48px VT323", fill: "#ff0044", align: "center" });
+            t_text_1 = game.add.text(game.world.centerX, game.world.centerY, "Move with arrow keys\nCast spells with spacebar\nMelee attack with A\nClear level of enemies\n\nClick to remove messages", { font: "48px VT323", fill: "#fce923", align: "center" });
             t_text_1.anchor.setTo(0.5,0.5);
             game.input.onDown.addOnce(removeText, this);
         }
@@ -272,7 +272,7 @@ sun_stone.state1.prototype = {
         
         //mana regen
         //first number is the timer, second is max mana
-        if (game.time.now - manaTick > 1000){
+        if (game.time.now - manaTick > 750){
             if (hunter.mana < hunter.mana_max) {
                 hunter.mana ++
             }
@@ -380,8 +380,10 @@ sun_stone.state1.prototype = {
             //hunterS.kill();
             hunter.health = 0;
             attacking = true;
+            running_sound.stop();
+            walkingSoundPlayed = false;
             // death text
-            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "48px VT323", fill: "#ff0044", align: "center" });
+            d_text = game.add.text(game.world.centerX, game.world.centerY, "You Died\nPress R to restart at the nearest checkpoint", { font: "48px VT323", fill: "#fce923", align: "center" });
             d_text.anchor.setTo(0.5,0.5);
             if(hunter.death == false){
                 hunterS.animations.play('death');
@@ -392,12 +394,17 @@ sun_stone.state1.prototype = {
             restartKey.onDown.addOnce(removeD_text, this);            
             restartKey.onDown.add(restartAtLevel1, this);
             
+            // reset flag 
+            if (cleared){
+                level_flag = 5;
+            }
+            
         }
         
         // spawn key and random drop when all enemies dead // tutorial 2 for picking up items
         if (level_flag <= 0 & cleared){
             // tutorial 2 text
-            t_text_2 = game.add.text(game.world.centerX, game.world.centerY, "Run over items to pick them up\nChests give random beneficial stats\nPause to check stats using P\nEnter doors with D", { font: "48px VT323", fill: "#ff0044", align: "center" });
+            t_text_2 = game.add.text(game.world.centerX, game.world.centerY, "Run over items to pick them up\nChests give random beneficial stats\nPause to check stats using P\nEnter doors with D", { font: "48px VT323", fill: "#fce923", align: "center" });
             t_text_2.anchor.setTo(0.5,0.5);
             game.input.onDown.addOnce(removeText2, this);
         
@@ -550,16 +557,23 @@ function create_enemy(enemy, x_velocity, y_velocity, x_bounce, y_bounce, health)
 
 //function after pressing r after death to restart from level 1
 function restartAtLevel1(){
+    // update death counter
+    deathCounter ++;
+    
+    // reset attacking 
+    attacking = false;
+    
+    running_sound.stop();
+    walkingSoundPlayed = false;
+    
     if(checkPoint == 1){game.state.start('state1'); hunter.doorPosition = 0;}
-    else if (checkPoint == 2){game.state.start('state3'); hunter.doorPosition = 0;}
-    else if (checkPoint == 3){game.state.start('state5'); hunter.doorPosition = 0;}
-    else if (checkPoint == 4){game.state.start('state9'); hunter.doorPosition = 0;}
+    else if (checkPoint == 2){game.state.start('state3'); hunter.doorPosition = 4;}
+    else if (checkPoint == 3){game.state.start('state5'); hunter.doorPosition = 8;}
+    else if (checkPoint == 4){game.state.start('state9'); hunter.doorPosition = 16;}
     hunter.health = hunter.health_max;
     hunter.mana = hunter.mana_max;
     attacking = false;
     walking = false;
     hunter.death = false;
-    if (cleared){
-        level_flag = 5;
-    }
+    
 }

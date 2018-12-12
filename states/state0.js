@@ -46,6 +46,42 @@ sun_stone.state0.prototype = {
         game.load.spritesheet('knight', 'assets/sprites/knightwalkanimation.png', 18,36,8);
 
 
+        // load background
+        game.load.image('backg', 'assets/sprites/bg1.png');
+        
+        
+        
+
+        
+        //load sounds
+        game.load.audio('pause_sound', 'assets/sounds/pause_sound.mp3');
+        game.load.audio('key_sound', 'assets/sounds/key_sound.ogg');
+        game.load.audio('sword_slash', 'assets/sounds/sword_slash.ogg');
+        game.load.audio('spellcast_sound', 'assets/sounds/spellcast_sound.ogg');
+        game.load.audio('running_sound', 'assets/sounds/running_sound.ogg');
+        game.load.audio('player_damage_sound', 'assets/sounds/player_damage_sound.ogg');
+        game.load.audio('ghost_damage_sound', 'assets/sounds/ghost_damage_sound.ogg');
+        
+        //this one needs a different sound
+        game.load.audio('magedeath_sound', 'assets/sounds/magedeath_sound.ogg');
+        
+        game.load.spritesheet('door', 'assets/sprites/door.png', 32, 22, 2);
+        
+
+        //load enemy asset
+        game.load.spritesheet('enemymage', 'assets/sprites/YeOldyNecroGuy.png', 21, 22, 6);
+        //replaced rat sprite with slime, didn't change variable name
+        game.load.spritesheet('rat', 'assets/sprites/slime-Sheet.png', 32, 25, 6);
+        game.load.spritesheet('enemywizard', 'assets/sprites/wizard.png', 80, 62, 6);
+        
+        
+       
+        
+        
+        
+        
+        
+        
         
     },
     
@@ -54,6 +90,12 @@ sun_stone.state0.prototype = {
     create: function(){
         // scales play screen to screen size
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        
+        game.stage.backgroundColor = "#160805";
+        
+        // create background
+        backg = game.add.sprite(0,0, 'backg');
+        backg.scale.setTo(4.74, 3.6);
         
         // create hunter sprite and enable physics
         main_ch = game.add.sprite(150, 590, 'hunterS');
@@ -82,7 +124,7 @@ sun_stone.state0.prototype = {
         
         
         // instructions
-        var text1 = game.add.text(game.world.centerX, game.world.centerY, "Press ENTER to start", { font: "100px VT323", fill: "#ff0044", align: "center" });
+        var text1 = game.add.text(game.world.centerX, game.world.centerY, "Press ENTER to start", { font: "90px VT323", fill: "#fce923", align: "center" });
         text1.anchor.setTo(0.5,0.5);
     },
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
