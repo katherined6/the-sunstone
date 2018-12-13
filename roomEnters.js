@@ -2,12 +2,14 @@ function room1Enter(){
     
     // set hunter position 
     hunter.doorPosition = 3;
+    
+    
     // action key for door
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state1');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state1');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
     
 }
 
@@ -15,12 +17,14 @@ function room1Enter2(){
     
      // set hunter position 
     hunter.doorPosition = 2;
+    
     // action key for door
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state1');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state1');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+
 }
 
 
@@ -29,12 +33,14 @@ function room2Enter(){
     
     // set hunter position
     hunter.doorPosition = 1;
+    
     // action key for door
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state2');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state2');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 function room3Enter(){
@@ -43,10 +49,11 @@ function room3Enter(){
     hunter.doorPosition = 4;
     // action key for door
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state3');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state3');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 function room3Enter2(){
@@ -54,10 +61,11 @@ function room3Enter2(){
     hunter.doorPosition = 5;
     // action key for door
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state3');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state3');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 function room4Enter(){
@@ -65,10 +73,11 @@ function room4Enter(){
     hunter.doorPosition = 6;
     // action key for door
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state4');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state4');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 function room4Enter2(){
@@ -76,10 +85,11 @@ function room4Enter2(){
     hunter.doorPosition = 7;
     // action key for door
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state4');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state4');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 
@@ -88,10 +98,11 @@ function room5Enter(){
     hunter.doorPosition = 8;
     // action key for door
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state5');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state5');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 function room5Enter2(){
@@ -99,10 +110,11 @@ function room5Enter2(){
     hunter.doorPosition = 9;
     // action key for door
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state5');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state5');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 function room5Enter3(){
@@ -110,10 +122,11 @@ function room5Enter3(){
     hunter.doorPosition = 10;
     // action key for door
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state5');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state5');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 function room5Enter4(){
@@ -121,10 +134,11 @@ function room5Enter4(){
     hunter.doorPosition = 13;
     // action key for door
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state5');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state5');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 
@@ -134,10 +148,11 @@ function room6Enter(){
     // action key for door
     console.log('door');
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state6');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state6');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 function room6Enter2(){
@@ -146,10 +161,11 @@ function room6Enter2(){
     // action key for door
     console.log('door');
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state6');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state6');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 function room7Enter(){
@@ -158,10 +174,11 @@ function room7Enter(){
     // action key for door
     console.log('door');
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state7');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state7');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 
@@ -171,10 +188,11 @@ function room8Enter(){
     // action key for door
     console.log('door');
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state8');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state8');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 function room9Enter(){
@@ -183,10 +201,11 @@ function room9Enter(){
     // action key for door
     console.log('door');
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state9');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state9');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 function room9Enter2(){
@@ -195,10 +214,11 @@ function room9Enter2(){
     // action key for door
     console.log('door');
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state9');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state9');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 function room10Enter(){
@@ -207,18 +227,20 @@ function room10Enter(){
     // action key for door
     console.log('door');
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('state10');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('state10');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
 
 
 // cutscene after boss
 function cutsceneStart (){
     var doorKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    doorKey.onDown.add(function(){game.state.start('stateEND');}, this);
-    //stop footstep sound
+    doorKey.onDown.add(function(){game.state.start('stateEND');//stop footstep sound
     running_sound.stop();
     walkingSoundPlayed = false;
+    walking = false;}, this);
+    
 }
