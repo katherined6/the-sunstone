@@ -177,6 +177,10 @@ sun_stone.state9.prototype = {
         // set check point
         checkPoint = 4;
         
+        // reset flag
+        level_9_flag = 8;
+        cleared9 = false;
+        
         
     },
     
@@ -388,6 +392,7 @@ sun_stone.state9.prototype = {
             
             // reset flag
             level_9_flag = 8;
+            cleared9 = false;
             
         }
         

@@ -171,7 +171,9 @@ sun_stone.state8.prototype = {
         hunterS.addChild(hitboxes);
         
         
-        
+        // reset flag
+        level_8_flag = false;
+        cleared8 = false;
         
     },
     
@@ -377,6 +379,7 @@ sun_stone.state8.prototype = {
             
             // reset flag
             level_8_flag = false;
+            cleared8 = false;
             
         }
         

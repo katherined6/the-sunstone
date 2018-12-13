@@ -124,7 +124,7 @@ sun_stone.state0.prototype = {
         
         
         // instructions
-        var text1 = game.add.text(game.world.centerX, game.world.centerY, "Press ENTER to start", { font: "90px VT323", fill: "#fce923", align: "center" });
+        var text1 = game.add.text(game.world.centerX, game.world.centerY, "The Sunstone\nPress ENTER to start", { font: "90px VT323", fill: "#fce923", align: "center" });
         text1.anchor.setTo(0.5,0.5);
     },
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

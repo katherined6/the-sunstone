@@ -1,4 +1,4 @@
-var level_2_flag = false, cleared2 = true, key2;
+var level_2_flag = false, cleared2 = false, key2;
 sun_stone.state2 = function(){};
 sun_stone.state2.prototype = {
     preload: function(){
@@ -190,7 +190,9 @@ sun_stone.state2.prototype = {
         hitboxes.enableBody = true;
         hunterS.addChild(hitboxes);
         
-        
+        // reset flag
+        level_2_flag = false;
+        cleared2 = false;
         
         
     },
@@ -355,6 +357,7 @@ sun_stone.state2.prototype = {
             
             // reset flag
             level_2_flag = false;
+            cleared2 = false;
         }
         
         
@@ -368,7 +371,7 @@ sun_stone.state2.prototype = {
         
         
         
-        if (level_2_flag & cleared2){
+        if (level_2_flag & !cleared2){
             
             // get random item
             drop_idx = rand_d();
@@ -388,7 +391,8 @@ sun_stone.state2.prototype = {
             // enable physics
             game.physics.arcade.enable(dropR1S);
             //only drops once
-            cleared2 = false;
+            cleared2 = true;
+            
         }
         
         
@@ -408,6 +412,8 @@ function pickupK2(hunterS, key2){
     // kill sprite
     key2.kill();
     key_sound.play();
+    
+    
     // change boolean in inventory
     inventory.keyR2 = true;
     

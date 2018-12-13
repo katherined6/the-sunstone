@@ -211,7 +211,7 @@ sun_stone.state1.prototype = {
         
         // tutorial 1 text
         if(t_1_flag){
-            t_text_1 = game.add.text(game.world.centerX, game.world.centerY, "Move with arrow keys\nCast spells with spacebar\nMelee attack with A\nClear level of enemies\n\nClick to remove messages", { font: "48px VT323", fill: "#fce923", align: "center" });
+            t_text_1 = game.add.text(game.world.centerX, game.world.centerY, "Move with arrow keys\nCast spells with spacebar (uses mana)\nMelee attack with A\nClear level of enemies\n\nClick to remove messages", { font: "48px VT323", fill: "#fce923", align: "center" });
             t_text_1.anchor.setTo(0.5,0.5);
             game.input.onDown.addOnce(removeText, this);
         }
@@ -237,7 +237,8 @@ sun_stone.state1.prototype = {
         
         // set check point
         checkPoint = 1;
-       
+        
+        
         
         
     },
@@ -403,6 +404,8 @@ sun_stone.state1.prototype = {
         
         // spawn key and random drop when all enemies dead // tutorial 2 for picking up items
         if (level_flag <= 0 & cleared){
+            removeText();
+            
             // tutorial 2 text
             t_text_2 = game.add.text(game.world.centerX, game.world.centerY, "Run over items to pick them up\nChests give random beneficial stats\nPause to check stats using P\nEnter doors with D", { font: "48px VT323", fill: "#fce923", align: "center" });
             t_text_2.anchor.setTo(0.5,0.5);
@@ -455,6 +458,7 @@ sun_stone.state1.prototype = {
 
 //function to remove ututorial 1 text
 function removeText(){
+    console.log('hell');
     t_text_1.destroy();
     t_1_flag = false;
 }

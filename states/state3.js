@@ -177,6 +177,9 @@ sun_stone.state3.prototype = {
         // set check point
         checkPoint = 2;
         
+        // reset flag
+        level_3_flag = 2;
+        cleared3 = false;
         
     },
     
@@ -394,6 +397,7 @@ sun_stone.state3.prototype = {
             
             // reset flag
             level_3_flag = 2;
+            cleared3 = false;
         }
         
         // collide player with key to put into inventory
